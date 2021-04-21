@@ -8,10 +8,8 @@ import com.refinitiv.exercise.repository.IUserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
 
 @Service
-//@Transactional
 public class UserService {
 
     @Autowired
@@ -27,7 +25,7 @@ public class UserService {
             User updatedUser = user.get();
             updatedUser.setId(selectedUser.getId());
             updatedUser.setName(selectedUser.getName());
-            updatedUser.setAccounts(selectedUser.getAccounts());
+            //updatedUser.setAccounts(selectedUser.getAccounts());
             return userRepository.save(updatedUser);
         } else {
             throw new Exception("Cannot update User");

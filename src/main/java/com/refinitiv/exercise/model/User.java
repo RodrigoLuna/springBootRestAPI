@@ -13,14 +13,19 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    @ApiModelProperty(notes = "User unique Id", hidden = true)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
+    @ApiModelProperty(notes = "User's Name")
     private String name;
 
     @ManyToMany
@@ -28,8 +33,8 @@ public class User {
         name = "assigned_accounts",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "account_id")
-
     )
+    @ApiModelProperty(notes = "Accounts binded to the User", hidden = false)
     private List<Account> assignedAccounts = new ArrayList<>();
 
     public User() {

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "accounts")
 public class Account {
@@ -17,15 +19,19 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    @ApiModelProperty(notes = "Account unique Id", hidden = true)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
+    @ApiModelProperty(notes = "Name of the Account")
     private String name;
 
-    @Column
+    @Column(nullable = false)
+    @ApiModelProperty(notes = "Account's currency")
     private Currency currency;
 
     @ManyToMany(mappedBy = "assignedAccounts")
+    @ApiModelProperty(notes = "Indicates if this account has been assigned to any User")
     private List<User> users;
 
     public Account() {

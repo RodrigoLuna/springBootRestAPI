@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -28,11 +30,13 @@ public class UserController {
     private AccountService accountService;
 
     @GetMapping("/user")
+    @ApiOperation(value = "Fetch All Users from the database", notes = "Returns list of Users", response = User.class)
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
     @GetMapping("/user/{id}")
+    @ApiOperation(value = "Fetch a specific user from the database", notes = "Returns the User given it's Id", response = User.class)
     public ResponseEntity<Object> getUserById(@PathVariable long id) {
         User user = userService.getUserById(id);
         if (user != null)
@@ -42,11 +46,13 @@ public class UserController {
     }
 
     @PostMapping("/user")
+    @ApiOperation(value = "Create a new User in the database", notes = "Returns the added User if success", response = Account.class)
     public ResponseEntity<User> createUser(User newUser) {
         return ResponseEntity.ok().body(userService.createUser(newUser));
     }
    
     @PostMapping("/user/{userId}") 
+    @ApiOperation(value = "Assign an existing Account to an existing User", notes = "Verify that the selected Account and User exists in the database", response = Account.class)
     public ResponseEntity<Object> addAccountToUser(
         @PathVariable long userId, 
         @RequestParam("account_id")long accountId) {
@@ -64,8 +70,8 @@ public class UserController {
         }
     }
     
-
     @DeleteMapping("/user/{userId}") 
+    @ApiOperation(value = "Unbinds an Account from a User", notes = "Verify that the selected Account is currently binded to a User", response = Account.class)
     public ResponseEntity<Object> removeAccountFromUser(
         @PathVariable long userId, 
         @RequestParam("account_id")long accountId) {

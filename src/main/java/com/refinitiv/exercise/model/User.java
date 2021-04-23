@@ -3,7 +3,6 @@ package com.refinitiv.exercise.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +17,7 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -32,6 +31,9 @@ public class User {
 
     )
     private List<Account> assignedAccounts = new ArrayList<>();
+
+    public User() {
+    }
 
     public User(String name) {
         this.name = name;

@@ -3,8 +3,9 @@ package com.refinitiv.exercise.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.refinitiv.exercise.model.Account;
 import com.refinitiv.exercise.model.User;
-import com.refinitiv.exercise.repository.IUserRepository;
+import com.refinitiv.exercise.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,44 +14,38 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     public User createUser(User newUser) {
         return userRepository.save(newUser);
     }
 
-    public User updateUser(User selectedUser) throws Exception {
-        Optional<User> user = this.userRepository.findById(selectedUser.getId());
-        if (user.isPresent()) {
-            User updatedUser = user.get();
-            updatedUser.setId(selectedUser.getId());
-            updatedUser.setName(selectedUser.getName());
-            //updatedUser.setAccounts(selectedUser.getAccounts());
-            return userRepository.save(updatedUser);
-        } else {
-            throw new Exception("Cannot update User");
-        }
-    }
-
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return this.userRepository.findAll();
     }
 
-    public User getUserById(long userId) throws Exception {
-        Optional<User> user = this.userRepository.findById(userId);
+    public User getUserById(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             return user.get();
         } else {
-            throw new Exception ("User " + userId  + " not found");
+            return null;
         }
     }
 
-    public boolean deleteUser(long userId) {
-        try {
-            userRepository.deleteById(userId);
-            return true;
-        } catch (Exception err) {
-            return false;
+    public User addAccountToUser(User user, Account account) {
+        if (!user.getAccounts().contains(account)) {
+            user.addAccount(account);
+            userRepository.save(user);
         }
+        return user;
+    }
+
+    public User removeAccountToUser(User user, Account account) {
+        if (!user.getAccounts().contains(account)) {
+            user.removeAccount(account);
+            userRepository.save(user);
+        }
+        return user;
     }
 }

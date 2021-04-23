@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.refinitiv.exercise.model.Account;
 import com.refinitiv.exercise.model.User;
-import com.refinitiv.exercise.repository.IAccountRepository;
-import com.refinitiv.exercise.repository.IUserRepository;
+import com.refinitiv.exercise.repository.AccountRepository;
+import com.refinitiv.exercise.repository.UserRepository;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,13 +23,15 @@ public class ExcerciseApplication {
 		ConfigurableApplicationContext configurableApplicationContext = 
 		SpringApplication.run(ExcerciseApplication.class, args);
 
-		IAccountRepository accountRepository = configurableApplicationContext.getBean(IAccountRepository.class);
-		IUserRepository userRepository = configurableApplicationContext.getBean(IUserRepository.class);
-
-		Account mxnAccount = new Account("MEXICO", "MXN");
-		Account usdAccount = new Account("UNITED STATES", "USD");
-		Account engAccount = new Account("ENGLAND", "GBP");
-		List<Account> baseAccounts = Arrays.asList(mxnAccount, usdAccount, engAccount);
+		AccountRepository accountRepository = configurableApplicationContext.getBean(AccountRepository.class);
+		UserRepository userRepository = configurableApplicationContext.getBean(UserRepository.class);
+		
+		Account mxnAccount = new Account("MEXICO", Account.Currency.MXN);
+		Account usdAccount = new Account("UNITED STATES OF AMERICA", Account.Currency.USD);
+		Account engAccount = new Account("ENGLAND", Account.Currency.GBP);
+		Account jpnAccount = new Account("JAPAN", Account.Currency.JPY);
+		Account chnAccount = new Account("CHINA", Account.Currency.CNY);
+		List<Account> baseAccounts = Arrays.asList(mxnAccount, usdAccount, engAccount, jpnAccount, chnAccount);
 		accountRepository.saveAll(baseAccounts);
 
 		User firstUser = new User("Fernando Perez");
@@ -41,7 +43,7 @@ public class ExcerciseApplication {
 		secondUser.addAccount(usdAccount);
 		thirdUser.addAccount(mxnAccount);
 		thirdUser.addAccount(engAccount);
-
+		
 		userRepository.saveAll(baseUsers);
 	}
 

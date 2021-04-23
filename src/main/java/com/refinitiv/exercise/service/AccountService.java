@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.refinitiv.exercise.model.Account;
-import com.refinitiv.exercise.repository.IAccountRepository;
+import com.refinitiv.exercise.repository.AccountRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class AccountService {
 
     @Autowired
-    private IAccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     public Account createAccount(Account newAccount) {
         return accountRepository.save(newAccount);
@@ -37,12 +37,12 @@ public class AccountService {
         return this.accountRepository.findAll();
     }
 
-    public Account getAccountById(long accountId) throws Exception {
-        Optional<Account> account = this.accountRepository.findById(accountId);
-        if (account.isPresent()) {
+    public Account getAccountById(long id) {
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isPresent()){
             return account.get();
         } else {
-            throw new Exception ("Account " + accountId  + " not found");
+            return null;
         }
     }
 

@@ -3,7 +3,9 @@ package com.refinitiv.exercise.repository;
 import com.refinitiv.exercise.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface IUserRepository extends JpaRepository<User, Long>{
+@Repository
+public interface UserRepository extends JpaRepository<User, Long>{
     
 }
